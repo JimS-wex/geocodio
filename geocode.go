@@ -20,6 +20,28 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 	return results, nil
 }
 
+func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country, limit string) (GeocodeResult, error) {
+	if address == "" {
+		return GeocodeResult{}, errors.New("address must not be empty")
+	}
+
+  cs := map[string]string{
+    "street": street,
+    "city": city,
+    "state": state,
+    "postal_code": postalCode,
+    "country": country,
+    "limit": limit,
+  }
+
+	results, err := g.Call("/geocode", cs)
+	if err != nil {
+		return GeocodeResult{}, err
+	}
+
+	return results, nil
+}
+
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
 func (g *Geocodio) GeocodeAndReturnTimezone(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "timezone")
