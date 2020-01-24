@@ -24,6 +24,12 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("Geocode Result %v", result)
+	
+  result, err = Geocodio.GeocodeByComponents("42370 Bob Hope Dr", "Rancho Mirage", "CA", "", "USA", "1")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Geocode Result %v", result)
 }
 ```
 

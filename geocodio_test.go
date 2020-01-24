@@ -25,6 +25,7 @@ const (
 	AddressTestOneStreet     = "N Highland St"
 	AddressTestOneCity       = "Arlington"
 	AddressTestOneState      = "VA"
+	AddressTestOneZip        = "22201"
 	AddressTestOneLatitude   = 38.886672
 	AddressTestOneLongitude  = -77.094735
 

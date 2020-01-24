@@ -25,14 +25,14 @@ func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country,
 		return GeocodeResult{}, errors.New("address must not be empty")
 	}
 
-  cs := map[string]string{
-    "street": street,
-    "city": city,
-    "state": state,
-    "postal_code": postalCode,
-    "country": country,
-    "limit": limit,
-  }
+	cs := map[string]string{
+		"street":      street,
+		"city":        city,
+		"state":       state,
+		"postal_code": postalCode,
+		"country":     country,
+		"limit":       limit,
+	}
 
 	results, err := g.Call("/geocode", cs)
 	if err != nil {

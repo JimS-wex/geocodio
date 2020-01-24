@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stevepartridge/geocodio"
+	"github.com/JimS-wex/geocodio"
 )
 
 func TestGeocodeWithEmptyAddress(t *testing.T) {
@@ -32,6 +32,29 @@ func TestGeocodeDebugResponseAsString(t *testing.T) {
 		t.Error("Response should be a valid string.")
 	}
 
+}
+
+func TestGeocodeByComponents(t *testing.T) {
+	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+	street := AddressTestOneNumber + " " + AddressTestOneStreet
+	city := AddressTestOneCity
+	state := AddressTestOneState
+	postalCode := AddressTestOneZip
+	limit := "1"
+	_, err = Geocodio.GeocodeByComponents(street, city, state, postalCode, "USA", limit)
+	if err == nil {
+		t.Error("Error should not be nil.")
+	}
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
+	}
+
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
+	}
 }
 
 func TestGeocodeFullAddress(t *testing.T) {
