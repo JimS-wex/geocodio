@@ -21,8 +21,23 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 }
 
 func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country, limit string) (GeocodeResult, error) {
-	if address == "" {
-		return GeocodeResult{}, errors.New("address must not be empty")
+	if street == "" {
+		return GeocodeResult{}, errors.New("street must not be empty")
+	}
+	if city == "" {
+		return GeocodeResult{}, errors.New("city must not be empty")
+	}
+	if state == "" {
+		return GeocodeResult{}, errors.New("state must not be empty")
+	}
+	if postalCode == "" {
+		return GeocodeResult{}, errors.New("postal code must not be empty")
+	}
+	if country == "" {
+		return GeocodeResult{}, errors.New("country must not be empty")
+	}
+	if limit == "" {
+		return GeocodeResult{}, errors.New("limit must not be empty")
 	}
 
 	cs := map[string]string{
