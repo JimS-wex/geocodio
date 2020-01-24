@@ -12,7 +12,7 @@ func TestReverseGeocodeFullAddress(t *testing.T) {
 		t.Error("Failed with API KEY set.", APIKey(), err)
 	}
 
-	result, err := Geocodio.ReverseGeocode(AddressTestTwoLatitude, AddressTestTwoLongitude)
+	result, err := Geocodio.ReverseGeocode(AddressTestOneLatitude, AddressTestOneLongitude)
 	if err != nil {
 		t.Error(err)
 	}
@@ -32,8 +32,8 @@ func TestReverseGeocodeFullAddress(t *testing.T) {
 		return
 	}
 
-	if result.Results[0].Formatted != "101 State Hwy 58, Nashville, NC 27856" {
-		t.Error("Location latitude does not match", result.Results[0].Formatted, "101 State Hwy 58, Nashville, NC 27856")
+	if result.Results[0].Formatted != AddressTestOneFull {
+		t.Error("Location latitude does not match", result.Results[0].Formatted, AddressTestOneFull)
 	}
 
 }

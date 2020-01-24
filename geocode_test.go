@@ -1,7 +1,6 @@
 package geocodio_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/JimS-wex/geocodio"
@@ -67,8 +66,6 @@ func TestGeocodeFullAddress(t *testing.T) {
 		t.Error(err)
 	}
 
-	// t.Log(result.ResponseAsString())
-
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
 	}
@@ -92,8 +89,6 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 		t.Error(err)
 	}
 
-	// t.Log(result.ResponseAsString())
-
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
 	}
@@ -115,47 +110,6 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 	}
 }
 
-func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-		t.Fail()
-	}
-	result, err := Geocodio.GeocodeAndReturnCongressionalDistrict(AddressTestOneFull)
-	if err != nil {
-		t.Error(err)
-	}
-
-	// t.Log(result.ResponseAsString())
-
-	if len(result.Results) == 0 {
-		t.Error("Results length is 0")
-		t.Fail()
-	}
-
-	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, AddressTestOneLatitude)
-		t.Fail()
-	}
-
-	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, AddressTestOneLongitude)
-		t.Fail()
-	}
-
-	fmt.Printf("data %+v", result.Results)
-
-	if result.Results[0].Fields.CongressionalDistrict.Name == "" {
-		t.Error("Congressional District field not found", result.Results[0].Fields.CongressionalDistrict)
-		t.Fail()
-	}
-
-	if result.Results[0].Fields.CongressionalDistrict.DistrictNumber != 36 {
-		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistrict)
-		t.Fail()
-	}
-}
-
 func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 	Geocodio, err := geocodio.NewGeocodio(APIKey())
 	if err != nil {
@@ -167,8 +121,6 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
-	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0", result)
@@ -206,8 +158,6 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 		t.Error(err)
 	}
 
-	// t.Log(result.ResponseAsString())
-
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
 	}
@@ -227,16 +177,6 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 	if !result.Results[0].Fields.Timezone.ObservesDST {
 		t.Error("Timezone field does not match", result.Results[0].Fields.Timezone)
 	}
-
-	// check congressional district
-	if result.Results[0].Fields.CongressionalDistrict.Name == "" {
-		t.Error("Congressional District field not found", result.Results[0].Fields.CongressionalDistrict)
-	}
-
-	if result.Results[0].Fields.CongressionalDistrict.DistrictNumber != 36 {
-		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistrict)
-	}
-
 }
 
 // TODO: School District (school)
