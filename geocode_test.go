@@ -44,7 +44,7 @@ func TestGeocodeByComponents(t *testing.T) {
 	state := AddressTestOneState
 	postalCode := AddressTestOneZip
 	limit := "1"
-	_, err = Geocodio.GeocodeByComponents(street, city, state, postalCode, "USA", limit)
+	result, err := Geocodio.GeocodeByComponents(street, city, state, postalCode, "USA", limit)
 	if err == nil {
 		t.Error("Error should not be nil.")
 	}

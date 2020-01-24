@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stevepartridge/geocodio"
+	"github.com/JimS-wex/geocodio"
 )
 
 const (
