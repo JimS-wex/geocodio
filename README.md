@@ -55,3 +55,10 @@ You can run the tests leveraging your API key as an enviroment variable from ter
 ```
 API_KEY=<YOUR_API_KEY> go test -v -cover
 ```
+
+TODO
+-------
+Fix breaking changes (see https://www.geocod.io/docs/#changelog):
+  - The census append now supports vintage years, data is keyed by year instead of just returning a single year
+  - Name property has been renamed to abbreviation
+  - Name is now the full timezone name in a tzdb-compatible format
