@@ -21,23 +21,36 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 }
 
 func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country, limit string) (GeocodeResult, error) {
+  cs, err := CombineComponents(street, city, state, postalCode, country, limit)
+  if err != nil {
+    return GeocodeResult{}, err
+  }
+	results, err := g.Call("/geocode", cs)
+	if err != nil {
+		return GeocodeResult{}, err
+	}
+
+	return results, nil
+}
+
+func CombineComponents(street, city, state, postalCode, country, limit string) (map[string]string, error) {
 	if street == "" {
-		return GeocodeResult{}, errors.New("street must not be empty")
+		return nil, errors.New("street must not be empty")
 	}
 	if city == "" {
-		return GeocodeResult{}, errors.New("city must not be empty")
+		return nil, errors.New("city must not be empty")
 	}
 	if state == "" {
-		return GeocodeResult{}, errors.New("state must not be empty")
+		return nil, errors.New("state must not be empty")
 	}
 	if postalCode == "" {
-		return GeocodeResult{}, errors.New("postal code must not be empty")
+		return nil, errors.New("postal code must not be empty")
 	}
 	if country == "" {
-		return GeocodeResult{}, errors.New("country must not be empty")
+		return nil, errors.New("country must not be empty")
 	}
 	if limit == "" {
-		return GeocodeResult{}, errors.New("limit must not be empty")
+		return nil, errors.New("limit must not be empty")
 	}
 
 	cs := map[string]string{
@@ -47,14 +60,9 @@ func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country,
 		"postal_code": postalCode,
 		"country":     country,
 		"limit":       limit,
-	}
+  }
 
-	results, err := g.Call("/geocode", cs)
-	if err != nil {
-		return GeocodeResult{}, err
-	}
-
-	return results, nil
+  return cs, nil
 }
 
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
