@@ -2,6 +2,7 @@ package geocodio
 
 import (
 	"errors"
+	"strconv"
 	"strings"
 )
 
@@ -20,11 +21,11 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 	return results, nil
 }
 
-func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country, limit string) (GeocodeResult, error) {
-  cs, err := CombineComponents(street, city, state, postalCode, country, limit)
-  if err != nil {
-    return GeocodeResult{}, err
-  }
+func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country string, limit int) (GeocodeResult, error) {
+	cs, err := CombineComponents(street, city, state, postalCode, country, limit)
+	if err != nil {
+		return GeocodeResult{}, err
+	}
 	results, err := g.Call("/geocode", cs)
 	if err != nil {
 		return GeocodeResult{}, err
@@ -33,7 +34,7 @@ func (g *Geocodio) GeocodeByComponents(street, city, state, postalCode, country,
 	return results, nil
 }
 
-func CombineComponents(street, city, state, postalCode, country, limit string) (map[string]string, error) {
+func CombineComponents(street, city, state, postalCode, country string, limit int) (map[string]string, error) {
 	if street == "" {
 		return nil, errors.New("street must not be empty")
 	}
@@ -47,10 +48,7 @@ func CombineComponents(street, city, state, postalCode, country, limit string) (
 		return nil, errors.New("postal code must not be empty")
 	}
 	if country == "" {
-		return nil, errors.New("country must not be empty")
-	}
-	if limit == "" {
-		return nil, errors.New("limit must not be empty")
+		country = "USA"
 	}
 
 	cs := map[string]string{
@@ -59,10 +57,14 @@ func CombineComponents(street, city, state, postalCode, country, limit string) (
 		"state":       state,
 		"postal_code": postalCode,
 		"country":     country,
-		"limit":       limit,
-  }
+		"limit":       strconv.Itoa(limit),
+	}
 
-  return cs, nil
+	if strconv.Itoa(limit) == "0" {
+		return nil, errors.New("limit must not be empty")
+	}
+
+	return cs, nil
 }
 
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
