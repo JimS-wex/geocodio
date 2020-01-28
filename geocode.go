@@ -61,7 +61,7 @@ func CombineComponents(street, city, state, postalCode, country string, limit in
 	}
 
 	if strconv.Itoa(limit) == "0" {
-		return nil, errors.New("limit must not be empty")
+		delete(cs, "limit")
 	}
 
 	return cs, nil
@@ -70,6 +70,16 @@ func CombineComponents(street, city, state, postalCode, country string, limit in
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
 func (g *Geocodio) GeocodeAndReturnTimezone(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "timezone")
+}
+
+// GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
+func (g *Geocodio) GeocodeByComponentsAndReturnTimezone(street, city, state, postalCode, country string, limit int) (GeocodeResult, error) {
+	cs, err := CombineComponents(street, city, state, postalCode, country, limit)
+	if err != nil {
+		return GeocodeResult{}, err
+	}
+	cs["fields"] = "timezone"
+	return g.Call("/geocode", cs)
 }
 
 // GeocodeAndReturnCongressionalDistrict will geocode and include Congressional District in the fields response
