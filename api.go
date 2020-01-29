@@ -1,6 +1,7 @@
 package geocodio
 
 import (
+  "crypto/tls"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
