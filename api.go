@@ -24,9 +24,14 @@ func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, er
 	}
 
 	timeout := time.Duration(10 * time.Second)
+  tr := &http.Transport{
+     TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+  }
 	client := http.Client{
 		Timeout: timeout,
+    Transport: tr,
 	}
+
 
 	resp, err := client.Get(_url)
 
