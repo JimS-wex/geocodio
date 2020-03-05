@@ -13,7 +13,7 @@ func main() {
 		panic(err)
 	}
 
-	result, err := Geocodio.Geocode("42370 Bob Hope Dr, Rancho Mirage, CA")
+	result, err := gc.Geocode("42370 Bob Hope Dr, Rancho Mirage, CA")
 	if err != nil {
 		panic(err)
 	}
